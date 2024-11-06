@@ -29,7 +29,7 @@ pipeline {
         stage('API Testing') {
             steps {
                 dir(API) {
-                    bat 'mvn test || true'
+                    bat 'mvn test -Dmaven.test.failure.ignore=true'
                 }
             }
         }
@@ -45,7 +45,7 @@ pipeline {
         stage('Web Testing') {
             steps {
                 dir(WEB) {
-                    bat 'mvn test || true'
+                    bat 'mvn test -Dmaven.test.failure.ignore=true'
                 }
             }
         }

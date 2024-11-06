@@ -269,4 +269,12 @@ public class BookingStepDefs {
         .assertThat()
         .body(JsonSchemaValidator.matchesJsonSchemaInClasspath("schemas/booking-id-schema.json"));
   }
+
+  @And("the response should match the create booking schema")
+  public void verifyCreateBookingResponse() {
+    context.getResponse()
+        .then()
+        .assertThat()
+        .body(JsonSchemaValidator.matchesJsonSchemaInClasspath("schemas/booking-schema.json"));
+  }
 }
