@@ -46,20 +46,20 @@ pipeline {
             }
         }
 
-        stage('Generate API Report') {
-            steps{
-                cucumber buildStatus: 'UNSTABLE',
-                    reportTitle: 'Rest Assured Test report',
-                    fileIncludePattern: 'rest-assured/**/*.json',
-                    trendsLimit: 10,
-                    classifications: [
-                        [
-                            'key': 'Browser',
-                            'value': 'Chrome'
-                        ]
-                    ]
-            }
-        }
+        // stage('Generate API Report') {
+        //     steps{
+        //         cucumber buildStatus: 'UNSTABLE',
+        //             reportTitle: 'Rest Assured Test report',
+        //             fileIncludePattern: 'rest-assured/**/*.json',
+        //             trendsLimit: 10,
+        //             classifications: [
+        //                 [
+        //                     'key': 'Browser',
+        //                     'value': 'Chrome'
+        //                 ]
+        //             ]
+        //     }
+        // }
         
         stage('Build Web Testing') {
             steps {
@@ -77,37 +77,37 @@ pipeline {
             }
         }
 
-        stage('Generate Web Testing Report') {
-            steps {
-                cucumber buildStatus: 'UNSTABLE',
-                    reportTitle: 'Selenium Test Report',
-                    fileIncludePattern: 'selenium/**/*.json',
-                    trendsLimit: 10,
-                    classifications: [
-                        [
-                            'key': 'Browser',
-                            'value': 'Chrome'
-                        ]
-                    ]
-            }
-        }
+        // stage('Generate Web Testing Report') {
+        //     steps {
+        //         cucumber buildStatus: 'UNSTABLE',
+        //             reportTitle: 'Selenium Test Report',
+        //             fileIncludePattern: 'selenium/**/*.json',
+        //             trendsLimit: 10,
+        //             classifications: [
+        //                 [
+        //                     'key': 'Browser',
+        //                     'value': 'Chrome'
+        //                 ]
+        //             ]
+        //     }
+        // }
 
-        stage('Generate Reports') {
-            steps {
-                parallel(
-                    "API Testing Report": {
-                        dir(API) {
-                            sh 'mvn site'
-                        }
-                    },
-                    "Web Testing Report Report": {
-                        dir(WEB) {
-                            sh 'mvn site'
-                        }
-                    }
-                )
-            }
-        }
+        // stage('Generate Reports') {
+        //     steps {
+        //         parallel(
+        //             "API Testing Report": {
+        //                 dir(API) {
+        //                     sh 'mvn site'
+        //                 }
+        //             },
+        //             "Web Testing Report Report": {
+        //                 dir(WEB) {
+        //                     sh 'mvn site'
+        //                 }
+        //             }
+        //         )
+        //     }
+        // }
     }
     
     post {
