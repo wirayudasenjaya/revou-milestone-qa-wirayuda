@@ -45,9 +45,11 @@ Feature: Booking
     And the response should <response_action>
     Examples:
       | firstname | lastname | totalprice | depositpaid | checkin    | checkout   | additionalneeds | status_code | response_action                 |
-      | Jim       | Brown    | 111        | true        | 2024-10-01 | 2024-10-05 | Breakfast       | 200         | match the create booking schema |
-      | Jim       | Brown    | 111        | true        | 2024-10-01 | 2024-10-05 |                 | 200         | match the create booking schema |
-      | Jim       | Brown    | 111        |             |            |            |                 | 500         | contain an error message        |
+      | Jim       | Brown    | 111        | true        | 2024-10-01 | 2024-10-05 | Breakfast       | 201         | match the create booking schema |
+      | Jim       | Brown    | 111        | true        | 2024-10-01 | 2024-10-05 |                 | 201         | match the create booking schema |
+      | Jim       | Brown    | 111        |             |            |            |                 | 400         | contain an error message        |
+      | Jim       | Brown    | 111        | true        | 2024-10-01 | 2024-09-28 |                 | 400         | contain an error message        |
+      | Jim       | Brown    | -111       | true        | 2024-10-01 | 2024-09-28 |                 | 400         | contain an error message        |
 
   Scenario Outline: Update Booking
     Given the base URL is available
@@ -67,7 +69,7 @@ Feature: Booking
       | auth_status            | booking_id | firstname | lastname | totalprice | depositpaid | checkin    | checkout   | additionalneeds | status_code | response_action              |
       | I am authenticated     | 1          | Jim       | Brown    | 111        | true        | 2024-10-01 | 2024-10-05 | Breakfast       | 200         | match the booking schema     |
       | I am authenticated     | 1          | Jim       | Brown    | 111        | true        | 2024-10-01 | 2024-10-05 |                 | 200         | match the booking schema     |
-      | I am authenticated     | 1          | Jim       | Brown    | 111        |             |            |            |                 | 500         | contain an error message     |
+      | I am authenticated     | 1          | Jim       | Brown    | 111        |             |            |            |                 | 400         | contain an error message     |
       | I am not authenticated | 1          | Jim       | Brown    | 111        | true        | 2024-10-01 | 2024-10-05 | Breakfast       | 403         | contain message: "Forbidden" |
 
   Scenario Outline: Partial Update Booking with Different Authentication
@@ -95,4 +97,4 @@ Feature: Booking
     Examples:
       | auth_status            | booking_id | status_code | message   |
       | I am not authenticated | 2          | 403         | Forbidden |
-      | I am authenticated     | 2          | 201         | Created   |
+      | I am authenticated     | 2          | 200         | Deleted   |
