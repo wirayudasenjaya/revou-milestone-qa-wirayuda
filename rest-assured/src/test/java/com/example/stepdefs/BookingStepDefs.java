@@ -5,6 +5,7 @@ import com.example.context.GlobalContext;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.When;
+import io.restassured.module.jsv.JsonSchemaValidator;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Assertions;
 
@@ -169,32 +170,6 @@ public class BookingStepDefs {
     Assertions.assertFalse(bookingIds.isEmpty(), "Booking ID list should not be empty");
   }
 
-  @And("the response should consist of booking detail with that ID")
-  public void getBookingDetailResponse() {
-    String firstname = context.getResponse().jsonPath().getString("firstname");
-    String lastname = context.getResponse().jsonPath().getString("lastname");
-    String checkin = context.getResponse().jsonPath().getString("bookingdates.checkin");
-    String checkout = context.getResponse().jsonPath().getString("bookingdates.checkout");
-
-    Assertions.assertNotNull(firstname, "Firstname should not be null");
-    Assertions.assertNotNull(lastname, "Lastname should not be null");
-    Assertions.assertNotNull(checkin, "Check-in date should not be null");
-    Assertions.assertNotNull(checkout, "Check-out date should not be null");
-  }
-
-  @And("the response should contain a booking ID & booking detail")
-  public void getCreateBookingResponse() {
-    String firstname = context.getResponse().jsonPath().getString("firstname");
-    String lastname = context.getResponse().jsonPath().getString("lastname");
-    String checkin = context.getResponse().jsonPath().getString("bookingdates.checkin");
-    String checkout = context.getResponse().jsonPath().getString("bookingdates.checkout");
-
-    Assertions.assertNotNull(firstname, "Firstname should not be null");
-    Assertions.assertNotNull(lastname, "Lastname should not be null");
-    Assertions.assertNotNull(checkin, "Check-in date should not be null");
-    Assertions.assertNotNull(checkout, "Check-out date should not be null");
-  }
-
   @And("the response should contain updated booking detail")
   public void getUpdateBookingResponse() {
     Assertions.assertNotNull(context.getResponse().jsonPath().get());
@@ -277,5 +252,21 @@ public class BookingStepDefs {
 
       Assertions.assertNotNull(responseObject.get(key));
     }
+  }
+
+  @And("the response should match the booking schema")
+  public void verifyBookingResponse() {
+    context.getResponse()
+        .then()
+        .assertThat()
+        .body(JsonSchemaValidator.matchesJsonSchemaInClasspath("schemas/booking-schema.json"));
+  }
+
+  @And("the response should match the booking id schema")
+  public void verifyBookingIdResponse() {
+    context.getResponse()
+        .then()
+        .assertThat()
+        .body(JsonSchemaValidator.matchesJsonSchemaInClasspath("schemas/booking-id-schema.json"));
   }
 }
