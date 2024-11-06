@@ -2,7 +2,7 @@ pipeline {
     agent any
     
     tools {
-        maven 'maven'
+        maven 'Maven'
         jdk 'JDK17'
     }
     
@@ -11,29 +11,17 @@ pipeline {
         WEB = 'selenium'
     }
 
-    
     stages {
         stage('Checkout') {
             steps {
                 checkout scm
             }
         }
-
-        stage('Prepare Directories') {
-            steps {
-                dir(API) {
-                    sh 'mkdir -p target/cucumber-reports'
-                }
-                dir(WEB) {
-                    sh 'mkdir -p target/cucumber-reports'
-                }
-            }
-        }
         
         stage('Build API Testing') {
             steps {
                 dir(API) {
-                    sh 'mvn clean install -DskipTests'
+                    bat 'mvn clean install -DskipTests'
                 }
             }
         }
@@ -41,30 +29,15 @@ pipeline {
         stage('API Testing') {
             steps {
                 dir(API) {
-                    sh 'mvn test | true'
+                    bat 'mvn test'
                 }
             }
         }
-
-        // stage('Generate API Report') {
-        //     steps{
-        //         cucumber buildStatus: 'UNSTABLE',
-        //             reportTitle: 'Rest Assured Test report',
-        //             fileIncludePattern: 'rest-assured/**/*.json',
-        //             trendsLimit: 10,
-        //             classifications: [
-        //                 [
-        //                     'key': 'Browser',
-        //                     'value': 'Chrome'
-        //                 ]
-        //             ]
-        //     }
-        // }
         
         stage('Build Web Testing') {
             steps {
                 dir(WEB) {
-                    sh 'mvn clean install -DskipTests'
+                    bat 'mvn clean install -DskipTests'
                 }
             }
         }
@@ -72,45 +45,40 @@ pipeline {
         stage('Web Testing') {
             steps {
                 dir(WEB) {
-                    sh 'mvn test || true'
+                    bat 'mvn test'
                 }
             }
         }
-
-        // stage('Generate Web Testing Report') {
-        //     steps {
-        //         cucumber buildStatus: 'UNSTABLE',
-        //             reportTitle: 'Selenium Test Report',
-        //             fileIncludePattern: 'selenium/**/*.json',
-        //             trendsLimit: 10,
-        //             classifications: [
-        //                 [
-        //                     'key': 'Browser',
-        //                     'value': 'Chrome'
-        //                 ]
-        //             ]
-        //     }
-        // }
-
-        // stage('Generate Reports') {
-        //     steps {
-        //         parallel(
-        //             "API Testing Report": {
-        //                 dir(API) {
-        //                     sh 'mvn site'
-        //                 }
-        //             },
-        //             "Web Testing Report Report": {
-        //                 dir(WEB) {
-        //                     sh 'mvn site'
-        //                 }
-        //             }
-        //         )
-        //     }
-        // }
     }
     
     post {
+        always {
+            cucumber([
+                fileIncludePattern: '**/*cucumber.json',
+                jsonReportDirectory: "${WORKSPACE}\\${API}\\target\\reports",
+                reportTitle: 'API Test Report',
+                buildStatus: 'UNSTABLE',
+                classifications: [
+                    [   
+                        'key': 'Environment',
+                        'value': 'API Testing'
+                    ]
+                ]
+            ])
+            
+            cucumber([
+                fileIncludePattern: '**/*cucumber.json',
+                jsonReportDirectory: "${WORKSPACE}\\${WEB}\\target\\reports",
+                reportTitle: 'Web Test Report',
+                buildStatus: 'UNSTABLE',
+                classifications: [
+                    [   
+                        'key': 'Environment',
+                        'value': 'Web Testing'
+                    ]
+                ]
+            ])
+        }
         success {
             echo 'Pipeline succeeded.'
         }
