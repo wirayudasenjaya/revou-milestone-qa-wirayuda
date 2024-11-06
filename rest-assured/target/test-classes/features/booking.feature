@@ -44,10 +44,10 @@ Feature: Booking
     Then the response status code should be <status_code>
     And the response should <response_action>
     Examples:
-      | firstname | lastname | totalprice | depositpaid | checkin    | checkout   | additionalneeds | status_code | response_action          |
-      | Jim       | Brown    | 111        | true        | 2024-10-01 | 2024-10-05 | Breakfast       | 200         | match the booking schema |
-      | Jim       | Brown    | 111        | true        | 2024-10-01 | 2024-10-05 |                 | 200         | match the booking schema |
-      | Jim       | Brown    | 111        |             |            |            |                 | 500         | contain an error message |
+      | firstname | lastname | totalprice | depositpaid | checkin    | checkout   | additionalneeds | status_code | response_action                 |
+      | Jim       | Brown    | 111        | true        | 2024-10-01 | 2024-10-05 | Breakfast       | 200         | match the create booking schema |
+      | Jim       | Brown    | 111        | true        | 2024-10-01 | 2024-10-05 |                 | 200         | match the create booking schema |
+      | Jim       | Brown    | 111        |             |            |            |                 | 500         | contain an error message        |
 
   Scenario Outline: Update Booking
     Given the base URL is available

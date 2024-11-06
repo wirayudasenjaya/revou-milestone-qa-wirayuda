@@ -60,12 +60,18 @@ Feature: Inventory
 
   Scenario: Add to Cart from Detail Page
     When the user enters detail page
-    And the user clicks on add to cart button
+    And the user clicks on add to cart button inside detail page
     Then the shopping cart badge should show "1"
-    And the button should change to remove from cart
-#
-#  Scenario: Remove from Cart from Detail Page
-#
+    And the button should change to remove from cart inside detail page
+
+  Scenario: Remove from Cart from Detail Page
+    When the user enters detail page
+    And the user clicks on add to cart button inside detail page
+    Then the shopping cart badge should show "1"
+    And the button should change to remove from cart inside detail page
+    When the user clicks on remove from cart inside detail page
+    Then the button should change to add to cart inside detail page
+
   Scenario: Open Cart Page
     When the user clicks on cart button
     Then the user should be redirected to "https://www.saucedemo.com/cart.html"
@@ -102,6 +108,5 @@ Feature: Inventory
     Then the shopping cart badge should show "1"
     When the user clicks on burger menu
     And the user clicks on "Reset App State" menu
-    Then the user should be redirected to "https://www.saucedemo.com"
-    And the shopping cart badge should not appear
+    Then the shopping cart badge should not appear
     And the button should change to add to cart

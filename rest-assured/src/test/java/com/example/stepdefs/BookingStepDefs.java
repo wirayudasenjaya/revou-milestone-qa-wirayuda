@@ -46,20 +46,22 @@ public class BookingStepDefs {
     Map<String, Object> bookingDates = new HashMap<>();
 
     bookingData.forEach((key, value) -> {
-      switch (key) {
-        case "totalprice":
-          bookingPayload.put(key, Integer.parseInt(value));
-          break;
-        case "depositpaid":
-          bookingPayload.put(key, Boolean.parseBoolean(value));
-          break;
-        case "checkin":
-        case "checkout":
-          bookingDates.put(key, value);
-          break;
-        default:
-          bookingPayload.put(key, value);
-          break;
+      if (value != null && !value.trim().isEmpty()) {
+        switch (key) {
+          case "totalprice":
+            bookingPayload.put(key, Integer.parseInt(value));
+            break;
+          case "depositpaid":
+            bookingPayload.put(key, Boolean.parseBoolean(value));
+            break;
+          case "checkin":
+          case "checkout":
+            bookingDates.put(key, value);
+            break;
+          default:
+            bookingPayload.put(key, value);
+            break;
+        }
       }
     });
 

@@ -30,9 +30,21 @@ public class InventoryStepDefs {
     addToCartButton.click();
   }
 
+  @When("the user clicks on add to cart button inside detail page")
+  public void clickAddToCartDetail() {
+    WebElement addToCartButton = driver.findElement(By.id("add-to-cart"));
+    addToCartButton.click();
+  }
+
   @When("the user clicks on remove from cart button")
   public void clickRemoveFromCart() {
     WebElement removeFromCartButton = driver.findElement(By.id("remove-sauce-labs-backpack"));
+    removeFromCartButton.click();
+  }
+
+  @When("the user clicks on remove from cart inside detail page")
+  public void clickRemoveFromCartDetail() {
+    WebElement removeFromCartButton = driver.findElement(By.id("remove"));
     removeFromCartButton.click();
   }
 
@@ -70,7 +82,7 @@ public class InventoryStepDefs {
 
   @Then("the user should see inventory item list")
   public void checkInventoryItemVisibility() {
-    WebElement inventoryItem = driver.findElement(By.className("inventory-list"));
+    WebElement inventoryItem = driver.findElement(By.className("inventory_list"));
     Assertions.assertTrue(inventoryItem.isDisplayed());
   }
 
@@ -216,9 +228,21 @@ public class InventoryStepDefs {
     Assertions.assertTrue(removeFromCartButton.isDisplayed());
   }
 
+  @And("the button should change to remove from cart inside detail page")
+  public void checkRemoveFromCartButtonDetailVisibility() {
+    WebElement removeFromCartButton = driver.findElement(By.id("remove"));
+    Assertions.assertTrue(removeFromCartButton.isDisplayed());
+  }
+
   @And("the button should change to add to cart")
   public void checkAddToCartButtonVisibility() {
     WebElement addToCartButton = driver.findElement(By.id("add-to-cart-sauce-labs-backpack"));
+    Assertions.assertTrue(addToCartButton.isDisplayed());
+  }
+
+  @And("the button should change to add to cart inside detail page")
+  public void checkAddToCartButtonDetailVisibility() {
+    WebElement addToCartButton = driver.findElement(By.id("add-to-cart"));
     Assertions.assertTrue(addToCartButton.isDisplayed());
   }
 
