@@ -11,10 +11,22 @@ pipeline {
         WEB = 'selenium'
     }
 
+    
     stages {
         stage('Checkout') {
             steps {
                 checkout scm
+            }
+        }
+
+        stage('Prepare Directories') {
+            steps {
+                dir(API) {
+                    sh 'mkdir -p target/cucumber-reports'
+                }
+                dir(WEB) {
+                    sh 'mkdir -p target/cucumber-reports'
+                }
             }
         }
         
@@ -33,6 +45,21 @@ pipeline {
                 }
             }
         }
+
+        stage('Generate API Report') {
+            steps{
+                cucumber buildStatus: 'UNSTABLE',
+                    reportTitle: 'Rest Assured Test report',
+                    fileIncludePattern: 'rest-assured/**/*.json',
+                    trendsLimit: 10,
+                    classifications: [
+                        [
+                            'key': 'Browser',
+                            'value': 'Chrome'
+                        ]
+                    ]
+            }
+        }
         
         stage('Build Web Testing') {
             steps {
@@ -49,36 +76,41 @@ pipeline {
                 }
             }
         }
+
+        stage('Generate Web Testing Report') {
+            steps {
+                cucumber buildStatus: 'UNSTABLE',
+                    reportTitle: 'Selenium Test Report',
+                    fileIncludePattern: 'selenium/**/*.json',
+                    trendsLimit: 10,
+                    classifications: [
+                        [
+                            'key': 'Browser',
+                            'value': 'Chrome'
+                        ]
+                    ]
+            }
+        }
+
+        stage('Generate Reports') {
+            steps {
+                parallel(
+                    "API Testing Report": {
+                        dir(API) {
+                            sh 'mvn site'
+                        }
+                    },
+                    "Web Testing Report Report": {
+                        dir(WEB) {
+                            sh 'mvn site'
+                        }
+                    }
+                )
+            }
+        }
     }
     
     post {
-        always {
-            cucumber(
-                fileIncludePattern: '**/cucumber.json',
-                jsonReportDirectory: "${API}/target/reports",
-                reportTitle: 'API Test Report',
-                buildStatus: 'UNSTABLE',
-                classifications: [
-                    [   
-                        'key': 'Environment',
-                        'value': 'API Testing'
-                    ]
-                ]
-            )
-            
-            cucumber(
-                fileIncludePattern: '**/cucumber.json',
-                jsonReportDirectory: "${WEB}/target/reports",
-                reportTitle: 'Web Test Report',
-                buildStatus: 'UNSTABLE',
-                classifications: [
-                    [   
-                        'key': 'Environment',
-                        'value': 'Web Testing'
-                    ]
-                ]
-            )
-        }
         success {
             echo 'Pipeline succeeded.'
         }
