@@ -275,6 +275,6 @@ public class BookingStepDefs {
     context.getResponse()
         .then()
         .assertThat()
-        .body(JsonSchemaValidator.matchesJsonSchemaInClasspath("schemas/booking-schema.json"));
+        .body(JsonSchemaValidator.matchesJsonSchemaInClasspath("schemas/create-booking-schema.json"));
   }
 }
