@@ -284,7 +284,7 @@ public class InventoryStepDefs {
     for (String item : elements) {
       boolean found = false;
       for (WebElement menuItem : menuItems) {
-        if (menuItem.getText().trim().equals(item.trim())) {
+        if (menuItem.getText().equals(item)) {
           found = true;
           break;
         }
