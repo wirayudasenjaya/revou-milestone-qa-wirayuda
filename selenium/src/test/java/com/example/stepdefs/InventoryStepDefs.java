@@ -124,8 +124,8 @@ public class InventoryStepDefs {
 
   @Then("the shopping cart badge should not appear")
   public void checkBadgeVisibility() {
-    WebElement cartBadge = driver.findElement(By.className("shopping_cart_badge"));
-    Assertions.assertFalse(cartBadge.isDisplayed());
+    List<WebElement> cartBadge = driver.findElements(By.className("shopping_cart_badge"));
+    Assertions.assertTrue(cartBadge.isEmpty());
   }
 
   @Then("the drawer should be opened")

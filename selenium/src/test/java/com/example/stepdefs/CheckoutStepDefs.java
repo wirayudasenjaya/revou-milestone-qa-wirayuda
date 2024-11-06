@@ -66,6 +66,12 @@ public class CheckoutStepDefs {
     }
   }
 
+  @When("the user clicks on Finish")
+  public void clickFinish() {
+    WebElement button = driver.findElement(By.id("finish"));
+    button.click();
+  }
+
   @Then("the user should see the added item")
   public void isItemAdded() {
     WebElement cartItem = driver.findElement(By.id("item_4_title_link"));
@@ -77,6 +83,18 @@ public class CheckoutStepDefs {
   public void isItemRemoved() {
     List<WebElement> cartItems = driver.findElements(By.id("item_4_title_link"));
     Assertions.assertTrue(cartItems.isEmpty());
+  }
+
+  @Then("the user should see cart item list")
+  public void isCartListDisplayed() {
+    WebElement cartItems = driver.findElement(By.className("cart_list"));
+    Assertions.assertTrue(cartItems.isDisplayed());
+  }
+
+  @Then("the user should be redirected to complete purchase")
+  public void completePurchaseDisplayed() {
+    WebElement container = driver.findElement(By.id("checkout_complete_container"));
+    Assertions.assertTrue(container.isDisplayed());
   }
 
   @And("the user clicks on Continue Shopping")
@@ -94,6 +112,20 @@ public class CheckoutStepDefs {
   @And("the user clicks on Continue")
   public void clickContinue() {
     WebElement button = driver.findElement(By.id("continue"));
+    button.click();
+  }
+
+  @And("the user already provides checkout information")
+  public void provideCheckoutInformation() {
+    WebElement firstNameElement = driver.findElement(By.name("firstName"));
+    WebElement lastNameElement = driver.findElement(By.name("lastName"));
+    WebElement zipCodeElement = driver.findElement(By.name("postalCode"));
+    WebElement button = driver.findElement(By.id("continue"));
+
+    firstNameElement.sendKeys("Jim");
+    lastNameElement.sendKeys("Brown");
+    zipCodeElement.sendKeys("12345");
+
     button.click();
   }
 }

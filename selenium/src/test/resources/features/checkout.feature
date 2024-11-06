@@ -63,3 +63,7 @@ Feature: Checkout
     And the user clicks on cart button
     And the user clicks on Checkout
     And the user already provides checkout information
+    Then the user should see cart item list
+    When the user clicks on Finish
+    Then the user should be redirected to complete purchase
+    And the shopping cart badge should not appear

@@ -57,3 +57,13 @@ Feature: Checkout
       | Jim        | Brown     |          | the user should get an error message                                                |
       | Jim        | Brown     | asdfg    | the user should get an error message                                                |
       |            |           |          | the user should get an error message                                                |
+
+  Scenario: Checkout Step Two
+    Given the user already add an item to cart
+    And the user clicks on cart button
+    And the user clicks on Checkout
+    And the user already provides checkout information
+    Then the user should see cart item list
+    When the user clicks on Finish
+    Then the user should be redirected to complete purchase
+    And the shopping cart badge should not appear

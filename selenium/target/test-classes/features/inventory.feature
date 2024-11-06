@@ -9,14 +9,14 @@ Feature: Inventory
     And the user is logged in as "standard_user"
     And the user is on the inventory page
 
-#  Scenario: View Inventory Items
-#    Then the user should see inventory item list
-#    And each item should display:
-#      | product image       |
-#      | product name        |
-#      | product price       |
-#      | product description |
-#      | add to cart button  |
+  Scenario: View Inventory Items
+    Then the user should see inventory item list
+    And each item should display:
+      | product image       |
+      | product name        |
+      | product price       |
+      | product description |
+      | add to cart button  |
 
   Scenario: Sort Name (A to Z)
     When the user clicks on filter dropdown and selects "Name (A to Z)"
@@ -34,16 +34,16 @@ Feature: Inventory
     When the user clicks on filter dropdown and selects "Price (high to low)"
     Then the items should be ordered by price "descending"
 
-#  Scenario: View Detail
-#    When the user clicks on product name
-#    Then the user should be redirected to detail page
-#    And the page should display:
-#      | product image            |
-#      | product name             |
-#      | product price            |
-#      | product description      |
-#      | add to cart button       |
-#      | back to products button  |
+  Scenario: View Detail
+    When the user clicks on product name
+    Then the user should be redirected to detail page
+    And the page should display:
+      | product image            |
+      | product name             |
+      | product price            |
+      | product description      |
+      | add to cart button       |
+      | back to products button  |
 #
   Scenario: Add to Cart
     When the user clicks on add to cart button
@@ -74,11 +74,11 @@ Feature: Inventory
   Scenario: Open/Close Drawer
     When the user clicks on burger menu
     Then the drawer should be opened
-#    And the user can see following menu:
-#      | All Items       |
-#      | About           |
-#      | Logout          |
-#      | Reset App State |
+    And the user can see following menu:
+      | All Items       |
+      | About           |
+      | Logout          |
+      | Reset App State |
     When the user clicks on close button
     Then the drawer should be closed
 
@@ -96,5 +96,12 @@ Feature: Inventory
     When the user clicks on burger menu
     And the user clicks on "Logout" menu
     Then the user should be redirected to "https://www.saucedemo.com"
-#
-#  Scenario: Reset App State
+
+  Scenario: Reset App State
+    When the user clicks on add to cart button
+    Then the shopping cart badge should show "1"
+    When the user clicks on burger menu
+    And the user clicks on "Reset App State" menu
+    Then the user should be redirected to "https://www.saucedemo.com"
+    And the shopping cart badge should not appear
+    And the button should change to add to cart
