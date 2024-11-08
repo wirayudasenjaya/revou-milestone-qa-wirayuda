@@ -12,29 +12,59 @@ Proyek ini bertujuan untuk mengimplementasikan *automated testing* untuk API, we
 
 ### API - REST Assured
 
-Pengujian web dilakukan dengan menggunakan *library* REST Assured. Beberapa modul yang diuji pada tes ini antara lain:
+Pengujian API dilakukan dengan menggunakan *library* REST Assured. Beberapa modul yang diuji pada tes ini antara lain:
 
-- Login (Berhasil & Gagal)
-- Booking (*Read*, *Create*, *Update*, *Delete*)
+- Login
+  - Login dengan kredensial yang valid
+  - Login dengan username yang salah
+  - Login dengan password yang salah
+  - Login dengan kredensial kosong
+  - Verifikasi status code
+- Booking
+  - Melihat daftar booking yang tersedia
+  - Melihat detail booking berdasarkan ID
+  - Membuat booking baru dengan data yang valid
+  - Membuat booking dengan data yang tidak lengkap / tidak valid
+  - Mengubah data booking yang sudah ada
+  - Menghapus booking berdasarkan ID
+  - Verifikasi status code
 - Ping
+  - Mengecek ketersediaan API
+  - Verifikasi status code
 
 ### Web - Selenium
 
 Pengujian web dilakukan dengan menggunakan Selenium WebDriver. Beberapa modul yang diuji pada tes ini antara lain:
 
 - Login
+  - Login dengan kredensial yang valid
+  - Login dengan kredensial yang salah
 - Melihat produk
+  - Melihat daftar produk
+  - Melihat detail produk
 - Menambahkan produk ke keranjang
+  - Menambahkan produk ke keranjang
+  - Menghapus produk dari keranjang
 - Checkout pesanan
+  - Mengecek flow checkout pesanan
+  - Mengecek validasi form checkout pesanan
 
 ### Mobile - Appium
 
 Pengujian mobile dilakukan dengan menggunakan *library* Appium. Beberapa modul yang diuji pada tes ini antara lain:
 
 - Login
+  - Login dengan kredensial yang valid
+  - Login dengan kredensial yang salah
 - Melihat produk
+  - Melihat daftar produk
+  - Melihat detail produk
 - Menambahkan produk ke keranjang
+  - Menambahkan produk ke keranjang
+  - Menghapus produk dari keranjang
 - Checkout pesanan
+  - Mengecek flow checkout pesanan
+  - Mengecek validasi form checkout pesanan
 
 ## 📊 Hasil Pengujian
 
@@ -58,7 +88,7 @@ Tes yang dilakukan pada web meliputi alur utama yang memungkinkan untuk dilakuka
 
 ## 🤕 Tantangan
 
-Selama proyek ini, kami menghadapi tantangan berikut:
+Selama proyek ini, tantangan yang dihadapi antara lain:
 
 1. **Kode STATUS API yang tidak konsisten**: Seperti yang disebutkan sebelumnya, masih terdapat beberapa kode status yang diberikan oleh *endpoint* yang masih belum sesuai. Contohnya adalah jika ada kesalahan dalam validasi form, seharusnya menampilakn kode status 400 Bad Request tetapi API memberikan kode status 500 Internal Server Error
 
